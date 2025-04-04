@@ -1,0 +1,10 @@
+# Python関連
+__pycache__/
+.python-version
+
+
+# 仮想環境
+.venv/
+ENV/
+env/
+.env
