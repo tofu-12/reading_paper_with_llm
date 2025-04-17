@@ -65,7 +65,7 @@ class SummaryClient:
         except Exception as e:
             raise Exception(f'プロンプトの作成の際にエラーが発生しました: {str(e)}')
     
-    def _parse_response(self, response):
+    def _parse_response(self, response) -> SummarySchema:
         """
         JSON文字列からSummarySchema型に変換
 

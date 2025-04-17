@@ -15,7 +15,7 @@ class TranslateClient:
         """
         pass
 
-    def process(self, encoded_pdf, max_trial: int=5):
+    def process(self, encoded_pdf, max_trial: int=5) -> TranslateSchema:
         """
         Geminiによるpdfの翻訳
 
@@ -24,17 +24,7 @@ class TranslateClient:
             max_trial: 失敗した際に何回繰り返すか
         
         Returns:
-            dict
-                English_Title: 英語のタイトル
-                Japanese_Title: 日本語のタイトル
-                Publication_Year: 発表年度
-                Journal_or_Conference: ジャーナルまたはカンファレンス
-                Keywords: 論文のキーワード
-                Abstract: abstract
-                Introduction: introduction
-                Related_Research: related research
-                Method: method
-                Conclusion: conclusion
+            TranslateSchema
         
         Raise:
             GeminiError: Gemini関連のエラー
@@ -46,8 +36,8 @@ class TranslateClient:
                 prompt = self._create_prompt()
                 response = client.run_with_pdf(prompt, encoded_pdf, json_schema=TranslateSchema)
 
-                result_dict = json.loads(response)
-                return result_dict
+                result = self._parse_response(response)
+                return result
             
             except GeminiError as e:
                 raise GeminiError(f'Geminiによる要約に失敗しました: {str(e)}')
@@ -74,9 +64,28 @@ class TranslateClient:
         
         except Exception as e:
             raise Exception(f'プロンプトの作成の際にエラーが発生しました: {str(e)}')
+    
+    def _parse_response(self, response) -> TranslateSchema:
+        """
+        JSON文字列からSummarySchema型に変換
+
+        Args:
+            JSON文字列
+        
+        Returns:
+            SummarySchema
+        """
+        try:
+            response_dict = json.loads(response)
+            result = TranslateSchema(**response_dict)
+
+            return result
+        
+        except Exception as e:
+            raise e
 
 
-def translate_pdf(encoded_pdf, max_trial: int=5):
+def translate_pdf(encoded_pdf, max_trial: int=5) -> TranslateSchema:
     """
     Geminiによるpdfの翻訳
 
@@ -85,17 +94,7 @@ def translate_pdf(encoded_pdf, max_trial: int=5):
         max_trial: 失敗した際に何回繰り返すか
     
     Returns:
-        dict
-            English_Title: 英語のタイトル
-            Japanese_Title: 日本語のタイトル
-            Publication_Year: 発表年度
-            Journal_or_Conference: ジャーナルまたはカンファレンス
-            Keywords: 論文のキーワード
-            Abstract: abstract
-            Introduction: introduction
-            Related_Research: related research
-            Method: method
-            Conclusion: conclusion
+        TranslateSchema
     
     Raise:
         GeminiError: Gemini関連のエラー
