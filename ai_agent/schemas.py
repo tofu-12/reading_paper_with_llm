@@ -30,3 +30,30 @@ class SummarySchema(BaseModel):
     Summary_of_Future_Work: str
     Overall_Summar: str
     Important_Reference: list[str]
+
+
+class TranslateSchema(BaseModel):
+    """
+    Geminiに指示する要約のJSON schema
+
+    English_Title: 英語のタイトル
+    Japanese_Title: 日本語のタイトル
+    Publication_Year: 発表年度
+    Journal_or_Conference: ジャーナルまたはカンファレンス
+    Keywords: 論文のキーワード
+    Abstract: abstract
+    Introduction: introduction
+    Related_Research: related research
+    Method: method
+    Conclusion: conclusion
+    """
+    English_Title: str
+    Japanese_Title: str
+    Publication_Year: int
+    Journal_or_Conference: str
+    Keywords: list[str]
+    Abstract: str
+    Introduction: str
+    Related_Research: str
+    Method: str
+    Conclusion: str
