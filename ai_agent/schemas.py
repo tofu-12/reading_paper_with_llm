@@ -28,7 +28,7 @@ class SummarySchema(BaseModel):
     Summary_of_Novelty_of_Proposed_Method: str
     Summary_of_Experiments_and_Results: str
     Summary_of_Future_Work: str
-    Overall_Summar: str
+    Overall_Summary: str
     Important_Reference: list[str]
 
 
