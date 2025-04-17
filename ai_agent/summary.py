@@ -15,7 +15,7 @@ class SummaryClient:
         """
         pass
 
-    def process(self, encoded_pdf, max_trial: int=5):
+    def process(self, encoded_pdf, max_trial: int=5) -> SummarySchema:
         """
         Geminiによるpdfの要約
 
@@ -24,19 +24,7 @@ class SummaryClient:
             max_trial: 失敗した際に何回繰り返すか
         
         Returns:
-            dict
-                English_Title: 英語のタイトル
-                Japanese_Title: 日本語のタイトル
-                Publication_Year: 発表年度
-                Journal_or_Conference: ジャーナルまたはカンファレンス
-                Keywords: 論文のキーワード
-                Japanese_Abstract: Abstractの日本語訳
-                Summary_of_Proposed_Method: 提案手法の要約
-                Summary_of_Novelty_of_Proposed_Method: 提案手法の新規性についての要約
-                Summary_of_Experiments_and_Results: 実験内容とその結果の要約
-                Summary_of_Future_Work: 今後についての要約
-                Overall_Summary: 全体の要約
-                Important_Reference: 重要な参考文献
+            SummarySchema
         
         Raise:
             GeminiError: Gemini関連のエラー
@@ -48,8 +36,8 @@ class SummaryClient:
                 prompt = self._create_prompt()
                 response = client.run_with_pdf(prompt, encoded_pdf, json_schema=SummarySchema)
 
-                result_dict = json.loads(response)
-                return result_dict
+                result = self._parse_response(response)
+                return result
             
             except GeminiError as e:
                 raise GeminiError(f'Geminiによる要約に失敗しました: {str(e)}')
@@ -76,9 +64,28 @@ class SummaryClient:
         
         except Exception as e:
             raise Exception(f'プロンプトの作成の際にエラーが発生しました: {str(e)}')
+    
+    def _parse_response(self, response) -> SummarySchema:
+        """
+        JSON文字列からSummarySchema型に変換
+
+        Args:
+            JSON文字列
+        
+        Returns:
+            SummarySchema
+        """
+        try:
+            response_dict = json.loads(response)
+            result = SummarySchema(**response_dict)
+
+            return result
+        
+        except Exception as e:
+            raise e
 
 
-def summary_pdf(encoded_pdf, max_trial: int=5):
+def summary_pdf(encoded_pdf, max_trial: int=5) -> SummarySchema:
     """
     Geminiによるpdfの要約
 
@@ -87,19 +94,7 @@ def summary_pdf(encoded_pdf, max_trial: int=5):
         max_trial: 失敗した際に何回繰り返すか
     
     Returns:
-        dict (SummarySchema)
-            English_Title: 英語のタイトル
-            Japanese_Title: 日本語のタイトル
-            Publication_Year: 発表年度
-            Journal_or_Conference: ジャーナルまたはカンファレンス
-            Keywords: 論文のキーワード
-            Japanese_Abstract: Abstractの日本語訳
-            Summary_of_Proposed_Method: 提案手法の要約
-            Summary_of_Novelty_of_Proposed_Method: 提案手法の新規性についての要約
-            Summary_of_Experiments_and_Results: 実験内容とその結果の要約
-            Summary_of_Future_Work: 今後についての要約
-            Overall_Summary: 全体の要約
-            Important_Reference: 重要な参考文献
+        SummarySchema
     
     Raise:
         GeminiError: Gemini関連のエラー
