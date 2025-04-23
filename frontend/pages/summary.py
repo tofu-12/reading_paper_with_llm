@@ -24,29 +24,28 @@ def show_result(summary_result: SummarySchema):
         st.code(', '.join(summary_result.Keywords), language='text')
 
         st.subheader("概要")
-        st.code(summary_result.Japanese_Abstract, language='text')
+        st.text(summary_result.Japanese_Abstract)
 
         st.subheader("提案手法")
-        st.code(summary_result.Summary_of_Proposed_Method, language='text')
+        st.text(summary_result.Summary_of_Proposed_Method)
 
         st.subheader("新規性")
-        st.code(summary_result.Summary_of_Novelty_of_Proposed_Method, language='text')
+        st.text(summary_result.Summary_of_Novelty_of_Proposed_Method)
 
         st.subheader("実験と結果")
-        st.code(summary_result.Summary_of_Experiments_and_Results, language='text')
+        st.text(summary_result.Summary_of_Experiments_and_Results)
 
         st.subheader("今後の展望")
-        st.code(summary_result.Summary_of_Future_Work, language='text')
+        st.text(summary_result.Summary_of_Future_Work)
 
         st.subheader("全体のまとめ")
-        st.code(summary_result.Overall_Summary, language='text')
+        st.text(summary_result.Overall_Summary)
 
         st.subheader("重要な参考文献")
-        reference_str = '[ \n'
+        reference_str = ''
         for ref in summary_result.Important_Reference:
-            reference_str += f"    \"{ref}\",\n"
-        reference_str += "]"
-        st.code(reference_str, language='text')
+            reference_str += f"- {ref}\n"
+        st.write(reference_str)
     
     except Exception as e:
         raise e
