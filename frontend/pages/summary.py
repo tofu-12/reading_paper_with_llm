@@ -1,12 +1,13 @@
 import os
 import sys
-sys.path.append(os.pardir)
-sys.path.append(os.path.join(os.pardir, os.pardir))
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 import streamlit as st
 
-from ai_agent.summary import summary_pdf
-from ai_agent.schemas import SummarySchema
+from app.ai_agent.summary import summary_pdf
+from app.ai_agent.schemas import SummarySchema
+from app.notion.notion_api import NotionClient
 
 
 def show_result(summary_result: SummarySchema):
@@ -63,6 +64,11 @@ if pdf is not None:
                 summary_result = summary_pdf(encoded_pdf)
             
             show_result(summary_result)
+
+            notion_client = NotionClient()
+            notion_client.save_data(summary_result)
+
+            st.success("Notionへの保存に成功しました")
             
         except Exception as e:
-            st.error(str(e))
+            st.error(e)
