@@ -1,11 +1,9 @@
 import json
 import os
-import sys
-sys.path.append(os.pardir)
 
-from ai_agent.gemini_api import GeminiModel, GeminiError
-from ai_agent.schemas import TranslateSchema
-from ai_agent.prompt import translate_prompt
+from .gemini_api import GeminiModel, GeminiError
+from .schemas import TranslateSchema
+from .prompt import translate_prompt
 
 
 class TranslateClient:

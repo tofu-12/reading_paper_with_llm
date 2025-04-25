@@ -1,12 +1,12 @@
 import os
 import sys
-sys.path.append(os.pardir)
-sys.path.append(os.path.join(os.pardir, os.pardir))
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 import streamlit as st
 
-from ai_agent.translate import translate_pdf
-from ai_agent.schemas import TranslateSchema
+from app.ai_agent.translate import translate_pdf
+from app.ai_agent.schemas import TranslateSchema
 
 
 def show_result(translate_result: TranslateSchema):

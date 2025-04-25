@@ -1,12 +1,12 @@
 import os
 import sys
-sys.path.append(os.pardir)
-sys.path.append(os.path.join(os.pardir, os.pardir))
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 import streamlit as st
 
-from ai_agent.summary import summary_pdf
-from ai_agent.schemas import SummarySchema
+from app.ai_agent.summary import summary_pdf
+from app.ai_agent.schemas import SummarySchema
 
 
 def show_result(summary_result: SummarySchema):

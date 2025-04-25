@@ -1,11 +1,9 @@
 import json
 import os
-import sys
-sys.path.append(os.pardir)
 
-from ai_agent.gemini_api import GeminiModel, GeminiError
-from ai_agent.prompt import summary_prompt
-from ai_agent.schemas import SummarySchema
+from .gemini_api import GeminiModel, GeminiError
+from .prompt import summary_prompt
+from .schemas import SummarySchema
 
 
 class SummaryClient:
