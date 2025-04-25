@@ -121,8 +121,8 @@ class NotionClient:
             if content: # 内容がある場合のみ追加
                 children.append({
                     'object': 'block',
-                    'type': 'heading_3',
-                    'heading_3': {
+                    'type': 'heading_2',
+                    'heading_2': {
                         'rich_text': [{'type': 'text', 'text': {'content': title}}]
                     }
                 })
