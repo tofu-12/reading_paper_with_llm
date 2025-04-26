@@ -7,3 +7,6 @@ __pycache__/
 
 # 環境変数関連
 .env
+
+# Mac関連
+.DS_Store
