@@ -9,4 +9,4 @@ __pycache__/
 .env
 
 # Mac関連
-.DS_Store
+**/.DS_Store
